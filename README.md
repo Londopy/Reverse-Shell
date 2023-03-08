@@ -1,2 +1,2 @@
 # Reverse-Shell
-Simple Reverse Shell only works and computers on your own network.
+Simple Reverse Shell only works on computers that are on the same network.
